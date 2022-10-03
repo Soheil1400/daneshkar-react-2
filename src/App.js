@@ -1,14 +1,24 @@
 import './App.css';
-import {useEffect, useState} from "react";
-import Message from "./components/Message";
-import ContactForm from "./components/ContactForm";
-import Search from "./components/Search";
-import FilterContact from "./components/FilterContact";
-import TableContact from "./components/TableContact";
-import TestApi from "./components/TestApi";
+import Home from "./section/Home";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import SinglePageContact from "./section/SinglePageContact";
+import {useState} from "react";
 
 
 function App() {
+    const [showMessage, setShowMessage] = useState('none')
+    const [id, setId] = useState('0')
+    const [state, setState] = useState('submit')
+    const [form, setForm] = useState({
+        id: Math.floor(Math.random() * 1000),
+        name: '',
+        age: 0,
+        email: '',
+        number: '',
+        favorite: '',
+        country: ''
+    })
+
     const [contacts, setContacts] = useState([
         {
             id: 1,
@@ -29,55 +39,33 @@ function App() {
             country: 'usa'
         },
     ])
-    const [showMessage, setShowMessage] = useState('none')
-    const [id, setId] = useState('0')
-    const [search, setSearch] = useState('')
-    const [filter, setFilter] = useState('allContact')
-    const [state, setState] = useState('submit')
-    const [form, setForm] = useState({
-        id: Math.floor(Math.random() * 1000),
-        name: '',
-        age: 0,
-        email: '',
-        number: '',
-        favorite: '',
-        country: ''
-    })
-
-    useEffect(() => {
-
-    }, [])
-
-    //[] => first render
-    //[search] => console.log
-
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Home contacts={contacts}
+                           setContacts={setContacts}
+                           setForm={setForm}
+                           setState={setState}
+                           setId={setId}
+                           form={form}
+                           setShowMessage={setShowMessage}
+                           state={state}
+                           showMessage={showMessage}
+                           id={id}
+            />,
+        },
+        {
+            path: "/contacts/:contactId",
+            element: <SinglePageContact contacts={contacts}
+                                        setShowMessage={setShowMessage}
+                                        setId={setId}
+                                        setForm={setForm}
+                                        setState={setState}
+            />,
+        },
+    ]);
     return (
-        <div>
-            <Message contacts={contacts}
-                     setContacts={setContacts}
-                     showMessage={showMessage}
-                     setShowMessage={setShowMessage}
-                     id={id}
-            />
-            <ContactForm form={form}
-                         setForm={setForm}
-                         state={state}
-                         setState={setState}
-                         contacts={contacts}
-                         setContacts={setContacts}
-            />
-            <Search search={search} setSearch={setSearch}/>
-            <FilterContact filter={filter} setFilter={setFilter}/>
-            <TableContact contacts={contacts}
-                          filter={filter}
-                          search={search}
-                          setState={setState}
-                          setForm={setForm}
-                          setId={setId}
-                          setShowMessage={setShowMessage}
-            />
-            <TestApi/>
-        </div>
+        <RouterProvider router={router}/>
     );
 }
 

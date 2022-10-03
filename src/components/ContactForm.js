@@ -39,16 +39,16 @@ const ContactForm = ({form, setForm, state, setState, contacts, setContacts}) =>
     return (
         <div>
             <div>
-                add new contact :
+                ADD NEW CONTACT :
             </div>
             <div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'row',padding:'16px',width:'100%',alignItems:'center'}}>
                     {formInputs.map( input => <TableContactInput form={form} input={input} handleForm={handleForm}/>)}
-                    <select name={'favorite'} onChange={handleForm} value={form.favorite}>
-                        <option value="favoriteContact">favoriteContact</option>
-                        <option value="unFavoriteContact">unFavoriteContact</option>
-                    </select>
-                    <button type={'submit'}>
+                    {/*<select style={{padding:'16px',borderRadius:'8px'}} name={'favorite'} onChange={handleForm} value={form.favorite}>*/}
+                    {/*    <option value="favoriteContact">favoriteContact</option>*/}
+                    {/*    <option value="unFavoriteContact">unFavoriteContact</option>*/}
+                    {/*</select>*/}
+                    <button style={{marginTop:'8px'}} type={'submit'}>
                         {state}
                     </button>
                 </form>
